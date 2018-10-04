@@ -1,0 +1,353 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>biosim.simulation &mdash; Biosim_Project 1.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Biosim_Project 1.1 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Biosim_Project 1.1 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for biosim.simulation</h1><div class="highlight"><pre>
+<span class="c"># -*- Utf-8 -*-</span>
+
+<span class="kn">from</span> <span class="nn">biosim.island</span> <span class="kn">import</span> <span class="n">Island</span>
+<span class="kn">from</span> <span class="nn">biosim.animals</span> <span class="kn">import</span> <span class="n">Herbivore</span><span class="p">,</span> <span class="n">Carnivore</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">random</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Simulation module</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">__author__</span> <span class="o">=</span> <span class="s">&#39;Marius Kristiansen, Kristian Frafjord&#39;</span>
+<span class="n">__email__</span> <span class="o">=</span> <span class="s">&#39;mariukri@nmbu.no, krfr@nmbu.no&#39;</span>
+
+
+<div class="viewcode-block" id="BioSim"><a class="viewcode-back" href="../../simulation.html#biosim.simulation.BioSim">[docs]</a><span class="k">class</span> <span class="nc">BioSim</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class BioSim</span>
+<span class="sd">    Main simulation class for biosim project</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">island_map</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">ini_pop</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Constructor creates island from given map, and adds</span>
+<span class="sd">            initial population to island.</span>
+<span class="sd">        All parameters needed to create animals are contained within</span>
+<span class="sd">            ini_pop.</span>
+
+<span class="sd">        :param island_map: String containing letters representing each</span>
+<span class="sd">        type of landscape</span>
+<span class="sd">        :param ini_pop: List of initial_populations. [pop1, pop2]</span>
+<span class="sd">        :param seed: Seed for rng</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">seed</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+            <span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">1234</span><span class="p">)</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">987654</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">island_map</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">island_map</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;OOOOOOO</span>
+<span class="s">                            OJJSJJO</span>
+<span class="s">                            OJSSSJO</span>
+<span class="s">                            OJSMSJO</span>
+<span class="s">                            OJSMSJO</span>
+<span class="s">                            OJJJJJO</span>
+<span class="s">                            OOOOOOO&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">island_map</span> <span class="o">=</span> <span class="n">island_map</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">island</span> <span class="o">=</span> <span class="n">Island</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">island_map</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">island</span><span class="o">.</span><span class="n">build_map</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vis_steps</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">img_steps</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">years_sim</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">heat</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="k">if</span> <span class="n">ini_pop</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">ini_herbs</span> <span class="o">=</span> <span class="p">[{</span><span class="s">&#39;loc&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+                          <span class="s">&#39;pop&#39;</span><span class="p">:</span> <span class="p">[{</span><span class="s">&#39;species&#39;</span><span class="p">:</span> <span class="s">&#39;Herbivore&#39;</span><span class="p">,</span>
+                                   <span class="s">&#39;age&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+                                   <span class="s">&#39;weight&#39;</span><span class="p">:</span> <span class="mi">20</span><span class="p">}</span>
+                                  <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">150</span><span class="p">)]}]</span>
+            <span class="n">ini_carns</span> <span class="o">=</span> <span class="p">[{</span><span class="s">&#39;loc&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+                          <span class="s">&#39;pop&#39;</span><span class="p">:</span> <span class="p">[{</span><span class="s">&#39;species&#39;</span><span class="p">:</span> <span class="s">&#39;Carnivore&#39;</span><span class="p">,</span>
+                                   <span class="s">&#39;age&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+                                   <span class="s">&#39;weight&#39;</span><span class="p">:</span> <span class="mi">20</span><span class="p">}</span>
+                                  <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">40</span><span class="p">)]}]</span>
+            <span class="n">ini_pop</span> <span class="o">=</span> <span class="n">ini_herbs</span> <span class="o">+</span> <span class="n">ini_carns</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_population</span><span class="p">(</span><span class="n">ini_pop</span><span class="p">)</span>
+
+<div class="viewcode-block" id="BioSim.add_population"><a class="viewcode-back" href="../../simulation.html#biosim.simulation.BioSim.add_population">[docs]</a>    <span class="k">def</span> <span class="nf">add_population</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">population</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Adds given population to cells. Location stored in given population</span>
+<span class="sd">        :param population: list of populations</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">species</span> <span class="ow">in</span> <span class="n">population</span><span class="p">:</span>
+            <span class="n">y</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">species</span><span class="p">[</span><span class="s">&#39;loc&#39;</span><span class="p">]]</span>
+            <span class="k">for</span> <span class="n">ani</span> <span class="ow">in</span> <span class="n">species</span><span class="p">[</span><span class="s">&#39;pop&#39;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">ani</span><span class="p">[</span><span class="s">&#39;species&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;Herbivore&#39;</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">island</span><span class="o">.</span><span class="n">island</span><span class="p">[</span><span class="n">y</span><span class="p">][</span><span class="n">x</span><span class="p">]</span><span class="o">.</span><span class="n">herbivores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Herbivore</span><span class="p">(</span>
+                        <span class="n">weight</span><span class="o">=</span><span class="n">ani</span><span class="p">[</span><span class="s">&#39;weight&#39;</span><span class="p">],</span> <span class="n">age</span><span class="o">=</span><span class="n">ani</span><span class="p">[</span><span class="s">&#39;age&#39;</span><span class="p">],</span>
+                        <span class="n">coordinates</span><span class="o">=</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">)))</span>
+                <span class="k">elif</span> <span class="n">ani</span><span class="p">[</span><span class="s">&#39;species&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;Carnivore&#39;</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">island</span><span class="o">.</span><span class="n">island</span><span class="p">[</span><span class="n">y</span><span class="p">][</span><span class="n">x</span><span class="p">]</span><span class="o">.</span><span class="n">carnivores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Carnivore</span><span class="p">(</span>
+                        <span class="n">weight</span><span class="o">=</span><span class="n">ani</span><span class="p">[</span><span class="s">&#39;weight&#39;</span><span class="p">],</span> <span class="n">age</span><span class="o">=</span><span class="n">ani</span><span class="p">[</span><span class="s">&#39;age&#39;</span><span class="p">],</span>
+                        <span class="n">coordinates</span><span class="o">=</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">)))</span>
+</div>
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="BioSim.heatmap"><a class="viewcode-back" href="../../simulation.html#biosim.simulation.BioSim.heatmap">[docs]</a>    <span class="k">def</span> <span class="nf">heatmap</span><span class="p">(</span><span class="n">island_results</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns two nested lists; [row[cell]], one for herbivore population</span>
+<span class="sd">        and one for carnivore population.</span>
+<span class="sd">        :param island_results: Array containing population data for one year</span>
+<span class="sd">        :return kart_herb, kart_carn: Map over populations</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">kart_herb</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">kart_carn</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">island_results</span><span class="p">:</span>
+            <span class="n">h_row</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">c_row</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">cell</span> <span class="ow">in</span> <span class="n">row</span><span class="p">:</span>
+                <span class="n">h_row</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cell</span><span class="p">[</span><span class="s">&quot;herbivores&quot;</span><span class="p">])</span>
+                <span class="n">c_row</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cell</span><span class="p">[</span><span class="s">&quot;carnivores&quot;</span><span class="p">])</span>
+            <span class="n">kart_herb</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">h_row</span><span class="p">)</span>
+            <span class="n">kart_carn</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">c_row</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">kart_herb</span><span class="p">,</span> <span class="n">kart_carn</span>
+</div>
+<div class="viewcode-block" id="BioSim.years_simulated"><a class="viewcode-back" href="../../simulation.html#biosim.simulation.BioSim.years_simulated">[docs]</a>    <span class="k">def</span> <span class="nf">years_simulated</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Prints the total number of years simulated</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">years_sim</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">print</span> <span class="s">&#39;Number of years simulated: {:5}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">years_sim</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;No years have been simulated, run .simulate()!&#39;</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="BioSim.per_cell_animal_count"><a class="viewcode-back" href="../../simulation.html#biosim.simulation.BioSim.per_cell_animal_count">[docs]</a>    <span class="k">def</span> <span class="nf">per_cell_animal_count</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Prints the total amount of animals in island</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">print</span> <span class="bp">self</span><span class="o">.</span><span class="n">island</span><span class="o">.</span><span class="n">individuals</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="BioSim.animal"><a class="viewcode-back" href="../../simulation.html#biosim.simulation.BioSim.animal">[docs]</a>    <span class="k">def</span> <span class="nf">animal</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns total number of animals per type</span>
+<span class="sd">        :return anim: Dict of animals per type</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">animals</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">island</span><span class="o">.</span><span class="n">individuals</span><span class="p">()</span>
+        <span class="n">herb</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">carn</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">animals</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">cell</span> <span class="ow">in</span> <span class="n">row</span><span class="p">:</span>
+                <span class="n">herb</span> <span class="o">+=</span> <span class="n">cell</span><span class="p">[</span><span class="s">&quot;herbivores&quot;</span><span class="p">]</span>
+                <span class="n">carn</span> <span class="o">+=</span> <span class="n">cell</span><span class="p">[</span><span class="s">&quot;carnivores&quot;</span><span class="p">]</span>
+        <span class="n">anim</span> <span class="o">=</span> <span class="p">{</span><span class="s">&quot;Herbivores&quot;</span><span class="p">:</span> <span class="n">herb</span><span class="p">,</span> <span class="s">&quot;Carnivores&quot;</span><span class="p">:</span> <span class="n">carn</span><span class="p">}</span>
+        <span class="k">return</span> <span class="n">anim</span>
+</div>
+<div class="viewcode-block" id="BioSim.animals_by_species"><a class="viewcode-back" href="../../simulation.html#biosim.simulation.BioSim.animals_by_species">[docs]</a>    <span class="k">def</span> <span class="nf">animals_by_species</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Prints number of Animals per type on island</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">print</span> <span class="bp">self</span><span class="o">.</span><span class="n">animal</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="BioSim.total_number_of_animals"><a class="viewcode-back" href="../../simulation.html#biosim.simulation.BioSim.total_number_of_animals">[docs]</a>    <span class="k">def</span> <span class="nf">total_number_of_animals</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Prints the total number of animals on island</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">animals</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">animal</span><span class="p">()</span>
+        <span class="k">print</span> <span class="s">&#39;Total number of animals on island: {:4}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">animals</span><span class="p">[</span><span class="s">&quot;Herbivores&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">animals</span><span class="p">[</span><span class="s">&quot;Carnivores&quot;</span><span class="p">])</span>
+</div>
+<div class="viewcode-block" id="BioSim.plot_update"><a class="viewcode-back" href="../../simulation.html#biosim.simulation.BioSim.plot_update">[docs]</a>    <span class="k">def</span> <span class="nf">plot_update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">years</span><span class="p">,</span> <span class="n">abscissa</span><span class="p">,</span> <span class="n">ordinate</span><span class="p">,</span> <span class="n">colour_herb</span><span class="p">,</span> <span class="n">colour_carn</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Updates the plot n_steps years</span>
+<span class="sd">        :param years: Number of years to plot</span>
+<span class="sd">        :param abscissa: Xrange</span>
+<span class="sd">        :param ordinate: Yrange</span>
+<span class="sd">        :param colour_herb: Colour of heatmap (default None)</span>
+<span class="sd">        :param colour_carn: Colour of heatmap (default None)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s">&#39;off&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">abscissa</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">abscissa</span> <span class="o">=</span> <span class="n">years</span>  <span class="c"># + self.years_sim</span>
+        <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&quot;Herbivores&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">island_map</span><span class="p">),</span> <span class="mi">2</span><span class="p">))</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">island_map</span><span class="p">),</span> <span class="mi">2</span><span class="p">))</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">island_map</span><span class="p">),</span> <span class="mi">2</span><span class="p">))</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_yticklabels</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">island_map</span><span class="p">),</span> <span class="mi">2</span><span class="p">))</span>
+
+        <span class="n">ax2</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">years_sim</span><span class="p">,</span> <span class="n">abscissa</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">years_sim</span><span class="p">,</span> <span class="n">ordinate</span><span class="p">])</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+        <span class="n">title</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">)</span>
+        <span class="n">line2</span> <span class="o">=</span> <span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">years</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">years</span><span class="p">),</span> <span class="s">&#39;g-&#39;</span><span class="p">,</span>
+                         <span class="n">label</span><span class="o">=</span><span class="s">&quot;Herbivores&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">line3</span> <span class="o">=</span> <span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">years</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">years</span><span class="p">),</span> <span class="s">&#39;r-&#39;</span><span class="p">,</span>
+                         <span class="n">label</span><span class="o">=</span><span class="s">&quot;Carnivores&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">prop</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;size&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">})</span>
+
+        <span class="n">ax3</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&quot;Carnivores&quot;</span><span class="p">)</span>
+        <span class="n">ax3</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">island_map</span><span class="p">),</span> <span class="mi">2</span><span class="p">))</span>
+        <span class="n">ax3</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">island_map</span><span class="p">)),</span> <span class="mi">2</span><span class="p">))</span>
+        <span class="n">ax3</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">island_map</span><span class="p">),</span> <span class="mi">2</span><span class="p">))</span>
+        <span class="n">ax3</span><span class="o">.</span><span class="n">set_yticklabels</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">island_map</span><span class="p">)),</span> <span class="mi">2</span><span class="p">))</span>
+
+        <span class="n">ax4</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&#39;Rossum Island&#39;</span><span class="p">)</span>
+        <span class="n">rgb_value</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;O&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span>
+                     <span class="s">&#39;M&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span>
+                     <span class="s">&#39;J&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>
+                     <span class="s">&#39;S&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span>
+                     <span class="s">&#39;D&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)}</span>
+        <span class="n">kart_rgb</span> <span class="o">=</span> <span class="p">[[</span><span class="n">rgb_value</span><span class="p">[</span><span class="n">column</span><span class="p">]</span> <span class="k">for</span> <span class="n">column</span> <span class="ow">in</span> <span class="n">row</span><span class="p">]</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">island_map</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&quot; &quot;</span><span class="p">,</span> <span class="s">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">()]</span>
+        <span class="n">axlg</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_axes</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.025</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">])</span>
+        <span class="n">axlg</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s">&#39;off&#39;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">ix</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">((</span><span class="s">&#39;Ocean&#39;</span><span class="p">,</span> <span class="s">&#39;Mountain&#39;</span><span class="p">,</span> <span class="s">&#39;Jungle&#39;</span><span class="p">,</span>
+                                   <span class="s">&#39;Savannah&#39;</span><span class="p">,</span> <span class="s">&#39;Desert&#39;</span><span class="p">)):</span>
+            <span class="n">axlg</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">Rectangle</span><span class="p">((</span><span class="mf">0.</span><span class="p">,</span> <span class="n">ix</span> <span class="o">*</span> <span class="mf">0.2</span><span class="p">),</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span>
+                                         <span class="n">edgecolor</span><span class="o">=</span><span class="s">&#39;none&#39;</span><span class="p">,</span>
+                                         <span class="n">facecolor</span><span class="o">=</span><span class="n">rgb_value</span><span class="p">[</span><span class="n">name</span><span class="p">[</span><span class="mi">0</span><span class="p">]]))</span>
+            <span class="n">axlg</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">0.35</span><span class="p">,</span> <span class="n">ix</span> <span class="o">*</span> <span class="mf">0.2</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">axlg</span><span class="o">.</span><span class="n">transAxes</span><span class="p">)</span>
+
+        <span class="n">ax4</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">kart_rgb</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s">&#39;nearest&#39;</span><span class="p">)</span>
+        <span class="n">ax4</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">kart_rgb</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="mi">4</span><span class="p">))</span>
+        <span class="n">ax4</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">kart_rgb</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="mi">4</span><span class="p">))</span>
+        <span class="n">ax4</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">kart_rgb</span><span class="p">),</span> <span class="mi">4</span><span class="p">))</span>
+        <span class="n">ax4</span><span class="o">.</span><span class="n">set_yticklabels</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">kart_rgb</span><span class="p">),</span> <span class="mi">4</span><span class="p">))</span>
+
+        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">years_sim</span><span class="p">,</span> <span class="n">years</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">heat</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">island</span><span class="o">.</span><span class="n">one_year</span><span class="p">())</span>
+            <span class="k">if</span> <span class="n">n</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">vis_steps</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">heat</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">interpolation</span><span class="o">=</span><span class="s">&#39;nearest&#39;</span><span class="p">,</span>
+                          <span class="n">cmap</span><span class="o">=</span><span class="n">colour_herb</span><span class="p">)</span>
+                <span class="n">ax3</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">heat</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">interpolation</span><span class="o">=</span><span class="s">&#39;nearest&#39;</span><span class="p">,</span>
+                           <span class="n">cmap</span><span class="o">=</span><span class="n">colour_carn</span><span class="p">)</span>
+                <span class="n">herbs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">heat</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="n">carns</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">heat</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                <span class="n">ydata2</span> <span class="o">=</span> <span class="n">line2</span><span class="o">.</span><span class="n">get_ydata</span><span class="p">()</span>
+                <span class="n">ydata3</span> <span class="o">=</span> <span class="n">line3</span><span class="o">.</span><span class="n">get_ydata</span><span class="p">()</span>
+                <span class="n">ydata2</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="n">herbs</span>
+                <span class="n">ydata3</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="n">carns</span>
+                <span class="n">line2</span><span class="o">.</span><span class="n">set_ydata</span><span class="p">(</span><span class="n">ydata2</span><span class="p">)</span>
+                <span class="n">line3</span><span class="o">.</span><span class="n">set_ydata</span><span class="p">(</span><span class="n">ydata3</span><span class="p">)</span>
+                <span class="n">title</span><span class="o">.</span><span class="n">set_text</span><span class="p">(</span><span class="s">&#39;Year: {:5}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+
+                <span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span>
+                    <span class="s">&#39;img{}{}.png&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s">&#39;0&#39;</span> <span class="o">*</span> <span class="p">(</span><span class="mi">5</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">years_sim</span>
+                                                            <span class="p">))),</span>
+                                         <span class="n">n</span><span class="p">))</span> <span class="k">if</span> \
+                    <span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">img_steps</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="bp">None</span>
+
+                <span class="n">plt</span><span class="o">.</span><span class="n">pause</span><span class="p">(</span><span class="mf">1e-7</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">heat</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="k">break</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">years_sim</span> <span class="o">+=</span> <span class="n">years</span>
+</div>
+<div class="viewcode-block" id="BioSim.simulate"><a class="viewcode-back" href="../../simulation.html#biosim.simulation.BioSim.simulate">[docs]</a>    <span class="k">def</span> <span class="nf">simulate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_steps</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">vis_steps</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">img_steps</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span>
+                 <span class="n">abscissa</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">ordinate</span><span class="o">=</span><span class="mi">20000</span><span class="p">,</span> <span class="n">colour_herb</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                 <span class="n">colour_carn</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Runs simulation num_steps number of years</span>
+
+<span class="sd">        :param num_steps: Number of years to simulate</span>
+<span class="sd">        :param vis_steps: Number of years between each time results are drawn</span>
+<span class="sd">        :param img_steps: Number of years between each .png file created</span>
+<span class="sd">        :param abscissa: Length of x-axis</span>
+<span class="sd">        :param ordinate: Length of y-axis</span>
+<span class="sd">        :param colour_herb: Colour for chart of herbivore population</span>
+<span class="sd">        :param colour_carn: Colour for chart of herbivore population</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vis_steps</span> <span class="o">=</span> <span class="n">vis_steps</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">img_steps</span> <span class="o">=</span> <span class="n">img_steps</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">plot_update</span><span class="p">(</span><span class="n">num_steps</span><span class="p">,</span> <span class="n">abscissa</span><span class="p">,</span> <span class="n">ordinate</span><span class="p">,</span>
+                         <span class="n">colour_herb</span><span class="p">,</span> <span class="n">colour_carn</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Marius Skaug Kristiansen, Kristian Frafjord.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.3</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

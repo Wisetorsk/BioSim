@@ -1,0 +1,225 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Simulation &mdash; Biosim_Project 1.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Biosim_Project 1.1 documentation" href="index.html" />
+    <link rel="prev" title="Animals" href="animals.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="animals.html" title="Animals"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Biosim_Project 1.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="simulation">
+<h1>Simulation<a class="headerlink" href="#simulation" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-biosim.simulation">
+<span id="the-simulation-module"></span><h2>The simulation module<a class="headerlink" href="#module-biosim.simulation" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="biosim.simulation.BioSim">
+<em class="property">class </em><code class="descclassname">biosim.simulation.</code><code class="descname">BioSim</code><span class="sig-paren">(</span><em>island_map=None</em>, <em>ini_pop=None</em>, <em>seed=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/biosim/simulation.html#BioSim"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.simulation.BioSim" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class BioSim
+Main simulation class for biosim project</p>
+<dl class="docutils">
+<dt>Constructor creates island from given map, and adds</dt>
+<dd>initial population to island.</dd>
+<dt>All parameters needed to create animals are contained within</dt>
+<dd>ini_pop.</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>island_map</strong> &#8211; String containing letters representing each</td>
+</tr>
+</tbody>
+</table>
+<p>type of landscape
+:param ini_pop: List of initial_populations. [pop1, pop2]
+:param seed: Seed for rng</p>
+<dl class="method">
+<dt id="biosim.simulation.BioSim.add_population">
+<code class="descname">add_population</code><span class="sig-paren">(</span><em>population</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/biosim/simulation.html#BioSim.add_population"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.simulation.BioSim.add_population" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds given population to cells. Location stored in given population
+:param population: list of populations</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="biosim.simulation.BioSim.animal">
+<code class="descname">animal</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/biosim/simulation.html#BioSim.animal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.simulation.BioSim.animal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns total number of animals per type
+:return anim: Dict of animals per type</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="biosim.simulation.BioSim.animals_by_species">
+<code class="descname">animals_by_species</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/biosim/simulation.html#BioSim.animals_by_species"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.simulation.BioSim.animals_by_species" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prints number of Animals per type on island</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="biosim.simulation.BioSim.heatmap">
+<em class="property">static </em><code class="descname">heatmap</code><span class="sig-paren">(</span><em>island_results</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/biosim/simulation.html#BioSim.heatmap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.simulation.BioSim.heatmap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns two nested lists; [row[cell]], one for herbivore population
+and one for carnivore population.
+:param island_results: Array containing population data for one year
+:return kart_herb, kart_carn: Map over populations</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="biosim.simulation.BioSim.per_cell_animal_count">
+<code class="descname">per_cell_animal_count</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/biosim/simulation.html#BioSim.per_cell_animal_count"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.simulation.BioSim.per_cell_animal_count" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prints the total amount of animals in island</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="biosim.simulation.BioSim.plot_update">
+<code class="descname">plot_update</code><span class="sig-paren">(</span><em>years</em>, <em>abscissa</em>, <em>ordinate</em>, <em>colour_herb</em>, <em>colour_carn</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/biosim/simulation.html#BioSim.plot_update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.simulation.BioSim.plot_update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updates the plot n_steps years
+:param years: Number of years to plot
+:param abscissa: Xrange
+:param ordinate: Yrange
+:param colour_herb: Colour of heatmap (default None)
+:param colour_carn: Colour of heatmap (default None)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="biosim.simulation.BioSim.simulate">
+<code class="descname">simulate</code><span class="sig-paren">(</span><em>num_steps=100</em>, <em>vis_steps=1</em>, <em>img_steps=2000</em>, <em>abscissa=None</em>, <em>ordinate=20000</em>, <em>colour_herb=None</em>, <em>colour_carn=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/biosim/simulation.html#BioSim.simulate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.simulation.BioSim.simulate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Runs simulation num_steps number of years</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>num_steps</strong> &#8211; Number of years to simulate</li>
+<li><strong>vis_steps</strong> &#8211; Number of years between each time results are drawn</li>
+<li><strong>img_steps</strong> &#8211; Number of years between each .png file created</li>
+<li><strong>abscissa</strong> &#8211; Length of x-axis</li>
+<li><strong>ordinate</strong> &#8211; Length of y-axis</li>
+<li><strong>colour_herb</strong> &#8211; Colour for chart of herbivore population</li>
+<li><strong>colour_carn</strong> &#8211; Colour for chart of herbivore population</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="biosim.simulation.BioSim.total_number_of_animals">
+<code class="descname">total_number_of_animals</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/biosim/simulation.html#BioSim.total_number_of_animals"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.simulation.BioSim.total_number_of_animals" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prints the total number of animals on island</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="biosim.simulation.BioSim.years_simulated">
+<code class="descname">years_simulated</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/biosim/simulation.html#BioSim.years_simulated"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.simulation.BioSim.years_simulated" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prints the total number of years simulated</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Simulation</a><ul>
+<li><a class="reference internal" href="#module-biosim.simulation">The simulation module</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="animals.html"
+                        title="previous chapter">Animals</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/simulation.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Marius Skaug Kristiansen, Kristian Frafjord.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.3</a>
+      
+      |
+      <a href="_sources/simulation.txt"
+          rel="nofollow">Page source</a></li>
+    </div>
+
+    
+
+    
+  </body>
+</html>

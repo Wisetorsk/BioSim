@@ -1,0 +1,328 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>biosim.island &mdash; Biosim_Project 1.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Biosim_Project 1.1 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Biosim_Project 1.1 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for biosim.island</h1><div class="highlight"><pre>
+<span class="c"># -*- Utf-8 -*-</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">biosim.landscape</span> <span class="kn">import</span> <span class="n">Jungle</span><span class="p">,</span> <span class="n">Savannah</span><span class="p">,</span> <span class="n">Desert</span><span class="p">,</span> <span class="n">Mountain</span><span class="p">,</span> <span class="n">Ocean</span>
+<span class="kn">import</span> <span class="nn">random</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Module Island</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">__author__</span> <span class="o">=</span> <span class="s">&#39;Marius Kristiansen, Kristian Frafjord&#39;</span>
+<span class="n">__email__</span> <span class="o">=</span> <span class="s">&#39;mariukri@nmbu.no, krfr@nmbu.no&#39;</span>
+
+
+<div class="viewcode-block" id="Island"><a class="viewcode-back" href="../../island.html#biosim.island.Island">[docs]</a><span class="k">class</span> <span class="nc">Island</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class object: Island.</span>
+<span class="sd">        - &lt;var&gt; = Island(String of landscape types)</span>
+<span class="sd">        - &lt;var&gt;.build_map() must run before simulation starts</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">island_map</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :param island_map: Map of island as string of &quot;biomes&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">island_map</span> <span class="o">=</span> <span class="n">island_map</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">island_temp</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">island</span> <span class="o">=</span> <span class="bp">None</span>
+
+<div class="viewcode-block" id="Island.build_map"><a class="viewcode-back" href="../../island.html#biosim.island.Island.build_map">[docs]</a>    <span class="k">def</span> <span class="nf">build_map</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Builds island based on input string.</span>
+<span class="sd">        Island biomes are placed in a two dimensional array</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">geography</span> <span class="o">=</span> <span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">island_map</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&quot; &quot;</span><span class="p">,</span> <span class="s">&quot;&quot;</span>
+                                                                  <span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">)]</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">geography</span><span class="p">:</span>
+            <span class="n">temp</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">cell</span> <span class="ow">in</span> <span class="n">row</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">cell</span> <span class="o">==</span> <span class="s">&quot;J&quot;</span><span class="p">:</span>
+                    <span class="n">temp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Jungle</span><span class="p">())</span>
+                <span class="k">elif</span> <span class="n">cell</span> <span class="o">==</span> <span class="s">&quot;S&quot;</span><span class="p">:</span>
+                    <span class="n">temp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Savannah</span><span class="p">())</span>
+                <span class="k">elif</span> <span class="n">cell</span> <span class="o">==</span> <span class="s">&quot;D&quot;</span><span class="p">:</span>
+                    <span class="n">temp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Desert</span><span class="p">())</span>
+                <span class="k">elif</span> <span class="n">cell</span> <span class="o">==</span> <span class="s">&quot;M&quot;</span><span class="p">:</span>
+                    <span class="n">temp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Mountain</span><span class="p">())</span>
+                <span class="k">elif</span> <span class="n">cell</span> <span class="o">==</span> <span class="s">&quot;O&quot;</span><span class="p">:</span>
+                    <span class="n">temp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Ocean</span><span class="p">())</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;&quot;{}&quot; is not properly defined! &#39;</span>
+                                     <span class="s">&#39;Use capital letters.&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">island_temp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">island</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">island_temp</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Island.grow"><a class="viewcode-back" href="../../island.html#biosim.island.Island.grow">[docs]</a>    <span class="k">def</span> <span class="nf">grow</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Runs through growth cycle for each cell in &lt;var&gt;.island.</span>
+<span class="sd">        Runs only if the cell i capable of growing food</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">island</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">cell</span> <span class="ow">in</span> <span class="n">row</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">cell</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;Jungle&quot;</span><span class="p">:</span>
+                    <span class="n">cell</span><span class="o">.</span><span class="n">grow_food</span><span class="p">()</span>
+                <span class="k">elif</span> <span class="n">cell</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;Savannah&quot;</span><span class="p">:</span>
+                    <span class="n">cell</span><span class="o">.</span><span class="n">grow_food</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="Island.feeding"><a class="viewcode-back" href="../../island.html#biosim.island.Island.feeding">[docs]</a>    <span class="k">def</span> <span class="nf">feeding</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Runs animal level feeding method on each animal in each cell</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">island</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">cell</span> <span class="ow">in</span> <span class="n">row</span><span class="p">:</span>
+                <span class="n">cell</span><span class="o">.</span><span class="n">feeding_cycle</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="Island.procreation"><a class="viewcode-back" href="../../island.html#biosim.island.Island.procreation">[docs]</a>    <span class="k">def</span> <span class="nf">procreation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Runs animal level breeding method on each animal in each cell</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">island</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">cell</span> <span class="ow">in</span> <span class="n">row</span><span class="p">:</span>
+                <span class="n">cell</span><span class="o">.</span><span class="n">breeding_cycle</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="Island.surrounding_cells"><a class="viewcode-back" href="../../island.html#biosim.island.Island.surrounding_cells">[docs]</a>    <span class="k">def</span> <span class="nf">surrounding_cells</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">coordinate</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculates surrounding cells that animals can migrate to.</span>
+<span class="sd">        If the neighboring cell is either mountain or ocean it does not</span>
+<span class="sd">        append the selected coordinates</span>
+
+<span class="sd">        :param coordinate: A given coordinate</span>
+<span class="sd">        :return: List of surrounding cells which animals can migrate to.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">coordinates</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">coordinate</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">cell_north</span> <span class="o">=</span> <span class="p">((</span><span class="n">coordinate</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span> <span class="n">coordinate</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">island</span><span class="p">[</span><span class="n">cell_north</span><span class="p">[</span><span class="mi">0</span><span class="p">]][</span><span class="n">cell_north</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span><span class="o">.</span><span class="n">passable</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">island</span><span class="p">[</span><span class="n">cell_north</span><span class="p">[</span><span class="mi">0</span><span class="p">]][</span><span class="n">cell_north</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span><span class="o">.</span><span class="n">passable</span><span class="p">:</span>
+                    <span class="n">coordinates</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cell_north</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">coordinate</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">island</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">cell_south</span> <span class="o">=</span> <span class="p">((</span><span class="n">coordinate</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">coordinate</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">island</span><span class="p">[</span><span class="n">cell_south</span><span class="p">[</span><span class="mi">0</span><span class="p">]][</span><span class="n">cell_south</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span><span class="o">.</span><span class="n">passable</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">island</span><span class="p">[</span><span class="n">cell_south</span><span class="p">[</span><span class="mi">0</span><span class="p">]][</span><span class="n">cell_south</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span><span class="o">.</span><span class="n">passable</span><span class="p">:</span>
+                    <span class="n">coordinates</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cell_south</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">coordinate</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">cell_west</span> <span class="o">=</span> <span class="p">((</span><span class="n">coordinate</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">coordinate</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">island</span><span class="p">[</span><span class="n">cell_west</span><span class="p">[</span><span class="mi">0</span><span class="p">]][</span><span class="n">cell_west</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span><span class="o">.</span><span class="n">passable</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">island</span><span class="p">[</span><span class="n">cell_west</span><span class="p">[</span><span class="mi">0</span><span class="p">]][</span><span class="n">cell_west</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span><span class="o">.</span><span class="n">passable</span><span class="p">:</span>
+                    <span class="n">coordinates</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cell_west</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">coordinate</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">island</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">cell_east</span> <span class="o">=</span> <span class="p">((</span><span class="n">coordinate</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">coordinate</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">island</span><span class="p">[</span><span class="n">cell_east</span><span class="p">[</span><span class="mi">0</span><span class="p">]][</span><span class="n">cell_east</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span><span class="o">.</span><span class="n">passable</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">island</span><span class="p">[</span><span class="n">cell_east</span><span class="p">[</span><span class="mi">0</span><span class="p">]][</span><span class="n">cell_east</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span><span class="o">.</span><span class="n">passable</span><span class="p">:</span>
+                    <span class="n">coordinates</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cell_east</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">coordinates</span>
+</div>
+<div class="viewcode-block" id="Island.shuffle_coordinates"><a class="viewcode-back" href="../../island.html#biosim.island.Island.shuffle_coordinates">[docs]</a>    <span class="k">def</span> <span class="nf">shuffle_coordinates</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Makes a shuffled list of the coordinates for all the cells on map.</span>
+
+<span class="sd">        :return: Shuffled list of coordinates</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">coordinates</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">island</span><span class="p">)):</span>
+            <span class="k">for</span> <span class="n">cell</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">island</span><span class="p">[</span><span class="n">row</span><span class="p">])):</span>
+                <span class="n">coordinates</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">row</span><span class="p">,</span> <span class="n">cell</span><span class="p">))</span>
+        <span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">coordinates</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">coordinates</span>
+</div>
+<div class="viewcode-block" id="Island.surrounding_cells_relative_food"><a class="viewcode-back" href="../../island.html#biosim.island.Island.surrounding_cells_relative_food">[docs]</a>    <span class="k">def</span> <span class="nf">surrounding_cells_relative_food</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">species</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Makes nested lists for the coordinates of the surrounding cells and</span>
+<span class="sd">        their amount of relative food.</span>
+
+<span class="sd">        :param y: y coordinate for the center cell</span>
+<span class="sd">        :param x: x coordinate for the center cell</span>
+<span class="sd">        :param species: String with the name of the specie to calculate relative</span>
+<span class="sd">        food for.</span>
+<span class="sd">        :return: nested list with surrounding cell and their calculated relative</span>
+<span class="sd">        food</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">nested_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">surrounding_cells</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">surrounding_cells</span><span class="p">((</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
+
+        <span class="k">for</span> <span class="n">surrounding_cell</span> <span class="ow">in</span> <span class="n">surrounding_cells</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">species</span> <span class="o">==</span> <span class="s">&quot;herbivore&quot;</span><span class="p">:</span>
+                <span class="n">nested_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="p">(</span><span class="n">surrounding_cell</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">island</span><span class="p">[</span><span class="n">y</span><span class="p">][</span><span class="n">x</span><span class="p">]</span><span class="o">.</span><span class="n">relative_food_herb</span><span class="p">()))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">nested_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="p">(</span><span class="n">surrounding_cell</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">island</span><span class="p">[</span><span class="n">y</span><span class="p">][</span><span class="n">x</span><span class="p">]</span><span class="o">.</span><span class="n">relative_food_carn</span><span class="p">()))</span>
+        <span class="k">return</span> <span class="n">nested_list</span>
+</div>
+<div class="viewcode-block" id="Island.migration"><a class="viewcode-back" href="../../island.html#biosim.island.Island.migration">[docs]</a>    <span class="k">def</span> <span class="nf">migration</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Runs the migration process for all cells. Starts at first cell in</span>
+<span class="sd">        shuffled list. Resets the has_moved attribute of the animals when</span>
+<span class="sd">        all animals have moved.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">coordinates</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">shuffle_coordinates</span><span class="p">():</span>
+            <span class="n">y</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="n">coordinates</span>
+            <span class="n">migrating_herbivores</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">island</span><span class="p">[</span><span class="n">y</span><span class="p">][</span><span class="n">x</span><span class="p">]</span><span class="o">.</span><span class="n">migration_cycle_herb</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">surrounding_cells_relative_food</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="s">&quot;herbivore&quot;</span><span class="p">))</span>
+            <span class="k">for</span> <span class="n">herbivore</span> <span class="ow">in</span> <span class="n">migrating_herbivores</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">herbivore</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                    <span class="n">new_y</span><span class="p">,</span> <span class="n">new_x</span> <span class="o">=</span> <span class="n">herbivore</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">island</span><span class="p">[</span><span class="n">new_y</span><span class="p">][</span><span class="n">new_x</span><span class="p">]</span><span class="o">.</span><span class="n">herbivores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">herbivore</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">island</span><span class="p">[</span><span class="n">y</span><span class="p">][</span><span class="n">x</span><span class="p">]</span><span class="o">.</span><span class="n">herbivores</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">herbivore</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+            <span class="n">migrating_carnivores</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">island</span><span class="p">[</span><span class="n">y</span><span class="p">][</span><span class="n">x</span><span class="p">]</span><span class="o">.</span><span class="n">migration_cycle_carn</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">surrounding_cells_relative_food</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="s">&quot;carnivore&quot;</span><span class="p">))</span>
+            <span class="k">for</span> <span class="n">carnivore</span> <span class="ow">in</span> <span class="n">migrating_carnivores</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">carnivore</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                    <span class="n">new_y</span><span class="p">,</span> <span class="n">new_x</span> <span class="o">=</span> <span class="n">carnivore</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">island</span><span class="p">[</span><span class="n">new_y</span><span class="p">][</span><span class="n">new_x</span><span class="p">]</span><span class="o">.</span><span class="n">carnivores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">carnivore</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">island</span><span class="p">[</span><span class="n">y</span><span class="p">][</span><span class="n">x</span><span class="p">]</span><span class="o">.</span><span class="n">carnivores</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">carnivore</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">island</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">cell</span> <span class="ow">in</span> <span class="n">row</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">animal</span> <span class="ow">in</span> <span class="n">cell</span><span class="o">.</span><span class="n">carnivores</span> <span class="o">+</span> <span class="n">cell</span><span class="o">.</span><span class="n">herbivores</span><span class="p">:</span>
+                    <span class="n">animal</span><span class="o">.</span><span class="n">has_moved</span> <span class="o">=</span> <span class="bp">False</span>
+</div>
+<div class="viewcode-block" id="Island.aging"><a class="viewcode-back" href="../../island.html#biosim.island.Island.aging">[docs]</a>    <span class="k">def</span> <span class="nf">aging</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Runs ageing method in each cell</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">island</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">cell</span> <span class="ow">in</span> <span class="n">row</span><span class="p">:</span>
+                <span class="n">cell</span><span class="o">.</span><span class="n">age_cycle</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="Island.loss_of_weight"><a class="viewcode-back" href="../../island.html#biosim.island.Island.loss_of_weight">[docs]</a>    <span class="k">def</span> <span class="nf">loss_of_weight</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Runs weightloss method in each cell</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">island</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">cell</span> <span class="ow">in</span> <span class="n">row</span><span class="p">:</span>
+                <span class="n">cell</span><span class="o">.</span><span class="n">weightloss_cycle</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="Island.death"><a class="viewcode-back" href="../../island.html#biosim.island.Island.death">[docs]</a>    <span class="k">def</span> <span class="nf">death</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Runs death function in each cell</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">island</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">cell</span> <span class="ow">in</span> <span class="n">row</span><span class="p">:</span>
+                <span class="n">cell</span><span class="o">.</span><span class="n">death_cycle</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="Island.individuals"><a class="viewcode-back" href="../../island.html#biosim.island.Island.individuals">[docs]</a>    <span class="k">def</span> <span class="nf">individuals</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the number of carnivores and herbivores in each cell</span>
+<span class="sd">        as array with each cell containing a dict over herbivores and carnivores</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">population</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">island</span><span class="p">:</span>
+            <span class="n">row_population</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">cell</span> <span class="ow">in</span> <span class="n">row</span><span class="p">:</span>
+                <span class="n">row_population</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cell</span><span class="o">.</span><span class="n">number_of_individuals</span><span class="p">())</span>
+            <span class="n">population</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row_population</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">population</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Island.one_year"><a class="viewcode-back" href="../../island.html#biosim.island.Island.one_year">[docs]</a>    <span class="k">def</span> <span class="nf">one_year</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Simulates one year progression and returns array containing the</span>
+<span class="sd">        numbers of each species in each cell.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">grow</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">feeding</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">procreation</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">migration</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">aging</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">loss_of_weight</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">death</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">individuals</span><span class="p">()</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Marius Skaug Kristiansen, Kristian Frafjord.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.3</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,290 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Animals &mdash; Biosim_Project 1.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Biosim_Project 1.1 documentation" href="index.html" />
+    <link rel="next" title="Simulation" href="simulation.html" />
+    <link rel="prev" title="Landscape" href="landscape.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="simulation.html" title="Simulation"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="landscape.html" title="Landscape"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Biosim_Project 1.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="animals">
+<h1>Animals<a class="headerlink" href="#animals" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-biosim.animals">
+<span id="the-animals-module"></span><h2>The animals module<a class="headerlink" href="#module-biosim.animals" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="biosim.animals.Animal">
+<em class="property">class </em><code class="descclassname">biosim.animals.</code><code class="descname">Animal</code><span class="sig-paren">(</span><em>weight=None</em>, <em>age=0</em>, <em>coordinates=(1</em>, <em>1)</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/biosim/animals.html#Animal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.animals.Animal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Superclass &#8220;Animal&#8221; for herbivores and carnivores</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>weight</strong> &#8211; Default None results in gaussian distribution of weight</li>
+<li><strong>age</strong> &#8211; The starting age of animal</li>
+<li><strong>coordinates</strong> &#8211; Starting coordinates of the animal</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="biosim.animals.Animal.ageing">
+<code class="descname">ageing</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/biosim/animals.html#Animal.ageing"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.animals.Animal.ageing" title="Permalink to this definition">¶</a></dt>
+<dd><p>Increment age by one per year</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="biosim.animals.Animal.breeding">
+<code class="descname">breeding</code><span class="sig-paren">(</span><em>individuals</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/biosim/animals.html#Animal.breeding"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.animals.Animal.breeding" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates if the animal will give birth based on animals present in
+cell, weight of animal and set parameters</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>individuals</strong> &#8211; number of individuals in cell</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Returns birth weight if it gives birth or None.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="biosim.animals.Animal.check_migrate">
+<code class="descname">check_migrate</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/biosim/animals.html#Animal.check_migrate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.animals.Animal.check_migrate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if the animal wants to migrate based on set parameters</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">True if animal will migrate</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="biosim.animals.Animal.death">
+<code class="descname">death</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/biosim/animals.html#Animal.death"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.animals.Animal.death" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates if the animal dies or not based on fitness and set parameters</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">True if the animal dies, False otherwise</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="biosim.animals.Animal.migrate">
+<code class="descname">migrate</code><span class="sig-paren">(</span><em>_list</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/biosim/animals.html#Animal.migrate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.animals.Animal.migrate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates if the herbivore will migrate and returns either the new
+coordinates or the current coordinates.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>_list</strong> &#8211; Nested list of tuples with surrounding positions as first</td>
+</tr>
+</tbody>
+</table>
+<p>element and relative food as second element.
+:return: New coordinates for the animal if it migrates or the old
+if it does not.</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="biosim.animals.Animal.set_parameters">
+<em class="property">classmethod </em><code class="descname">set_parameters</code><span class="sig-paren">(</span><em>new_params</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/biosim/animals.html#Animal.set_parameters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.animals.Animal.set_parameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updates parameters. Raises ValueError if values are invalid</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>new_params</strong> &#8211; New set of parameters as dictionary</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="biosim.animals.Animal.update_fitness">
+<code class="descname">update_fitness</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/biosim/animals.html#Animal.update_fitness"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.animals.Animal.update_fitness" title="Permalink to this definition">¶</a></dt>
+<dd><p>Re-calculates the animal&#8217;s fitness based on age and weight</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="biosim.animals.Animal.weightloss">
+<code class="descname">weightloss</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/biosim/animals.html#Animal.weightloss"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.animals.Animal.weightloss" title="Permalink to this definition">¶</a></dt>
+<dd><p>Recalculates the animals weight according to &#8220;eta&#8221; and original weight</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="biosim.animals.Carnivore">
+<em class="property">class </em><code class="descclassname">biosim.animals.</code><code class="descname">Carnivore</code><span class="sig-paren">(</span><em>weight=None</em>, <em>age=0</em>, <em>coordinates=(1</em>, <em>1)</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/biosim/animals.html#Carnivore"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.animals.Carnivore" title="Permalink to this definition">¶</a></dt>
+<dd><p>Animal subclass Carnivore</p>
+<dl class="method">
+<dt id="biosim.animals.Carnivore.feeding">
+<code class="descname">feeding</code><span class="sig-paren">(</span><em>herbivores</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/biosim/animals.html#Carnivore.feeding"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.animals.Carnivore.feeding" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate if the carnivore will feed based on its own fitness and
+the fitness of the herbivore, and gain weight. Removes eaten
+herbivores.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>herbivores</strong> &#8211; List of herbivores in cell</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Updated list of herbivores in cell after eating</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="biosim.animals.Herbivore">
+<em class="property">class </em><code class="descclassname">biosim.animals.</code><code class="descname">Herbivore</code><span class="sig-paren">(</span><em>weight=None</em>, <em>age=0</em>, <em>coordinates=(1</em>, <em>1)</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/biosim/animals.html#Herbivore"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.animals.Herbivore" title="Permalink to this definition">¶</a></dt>
+<dd><p>Animal subclass Herbivore.</p>
+<dl class="method">
+<dt id="biosim.animals.Herbivore.feeding">
+<code class="descname">feeding</code><span class="sig-paren">(</span><em>available_food</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/biosim/animals.html#Herbivore.feeding"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.animals.Herbivore.feeding" title="Permalink to this definition">¶</a></dt>
+<dd><p>Herbivore feeding method. The animal will feed based on amount of
+available food in cell, and returns the result. If the amount left in
+cell is less than the animals &#8220;hunger&#8221;, the animal will eat the
+remaining amount and returns 0</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>available_food</strong> &#8211; available food before eating</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">new amount of food left after eating</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Animals</a><ul>
+<li><a class="reference internal" href="#module-biosim.animals">The animals module</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="landscape.html"
+                        title="previous chapter">Landscape</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="simulation.html"
+                        title="next chapter">Simulation</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/animals.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Marius Skaug Kristiansen, Kristian Frafjord.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.3</a>
+      
+      |
+      <a href="_sources/animals.txt"
+          rel="nofollow">Page source</a></li>
+    </div>
+
+    
+
+    
+  </body>
+</html>

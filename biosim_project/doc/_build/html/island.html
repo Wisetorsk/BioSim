@@ -1,0 +1,269 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Island &mdash; Biosim_Project 1.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Biosim_Project 1.1 documentation" href="index.html" />
+    <link rel="next" title="Landscape" href="landscape.html" />
+    <link rel="prev" title="Welcome to Biosim_Project’s documentation!" href="index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="landscape.html" title="Landscape"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Welcome to Biosim_Project’s documentation!"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Biosim_Project 1.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="island">
+<h1>Island<a class="headerlink" href="#island" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-biosim.island">
+<span id="the-island-module"></span><h2>The island module<a class="headerlink" href="#module-biosim.island" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="biosim.island.Island">
+<em class="property">class </em><code class="descclassname">biosim.island.</code><code class="descname">Island</code><span class="sig-paren">(</span><em>island_map</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/biosim/island.html#Island"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.island.Island" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Class object: Island.</dt>
+<dd><ul class="first last simple">
+<li>&lt;var&gt; = Island(String of landscape types)</li>
+<li>&lt;var&gt;.build_map() must run before simulation starts</li>
+</ul>
+</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>island_map</strong> &#8211; Map of island as string of &#8220;biomes&#8221;</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="biosim.island.Island.aging">
+<code class="descname">aging</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/biosim/island.html#Island.aging"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.island.Island.aging" title="Permalink to this definition">¶</a></dt>
+<dd><p>Runs ageing method in each cell</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="biosim.island.Island.build_map">
+<code class="descname">build_map</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/biosim/island.html#Island.build_map"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.island.Island.build_map" title="Permalink to this definition">¶</a></dt>
+<dd><p>Builds island based on input string.
+Island biomes are placed in a two dimensional array</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="biosim.island.Island.death">
+<code class="descname">death</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/biosim/island.html#Island.death"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.island.Island.death" title="Permalink to this definition">¶</a></dt>
+<dd><p>Runs death function in each cell</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="biosim.island.Island.feeding">
+<code class="descname">feeding</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/biosim/island.html#Island.feeding"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.island.Island.feeding" title="Permalink to this definition">¶</a></dt>
+<dd><p>Runs animal level feeding method on each animal in each cell</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="biosim.island.Island.grow">
+<code class="descname">grow</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/biosim/island.html#Island.grow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.island.Island.grow" title="Permalink to this definition">¶</a></dt>
+<dd><p>Runs through growth cycle for each cell in &lt;var&gt;.island.
+Runs only if the cell i capable of growing food</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="biosim.island.Island.individuals">
+<code class="descname">individuals</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/biosim/island.html#Island.individuals"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.island.Island.individuals" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the number of carnivores and herbivores in each cell
+as array with each cell containing a dict over herbivores and carnivores</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="biosim.island.Island.loss_of_weight">
+<code class="descname">loss_of_weight</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/biosim/island.html#Island.loss_of_weight"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.island.Island.loss_of_weight" title="Permalink to this definition">¶</a></dt>
+<dd><p>Runs weightloss method in each cell</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="biosim.island.Island.migration">
+<code class="descname">migration</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/biosim/island.html#Island.migration"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.island.Island.migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Runs the migration process for all cells. Starts at first cell in
+shuffled list. Resets the has_moved attribute of the animals when
+all animals have moved.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="biosim.island.Island.one_year">
+<code class="descname">one_year</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/biosim/island.html#Island.one_year"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.island.Island.one_year" title="Permalink to this definition">¶</a></dt>
+<dd><p>Simulates one year progression and returns array containing the
+numbers of each species in each cell.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="biosim.island.Island.procreation">
+<code class="descname">procreation</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/biosim/island.html#Island.procreation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.island.Island.procreation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Runs animal level breeding method on each animal in each cell</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="biosim.island.Island.shuffle_coordinates">
+<code class="descname">shuffle_coordinates</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/biosim/island.html#Island.shuffle_coordinates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.island.Island.shuffle_coordinates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Makes a shuffled list of the coordinates for all the cells on map.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Shuffled list of coordinates</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="biosim.island.Island.surrounding_cells">
+<code class="descname">surrounding_cells</code><span class="sig-paren">(</span><em>coordinate</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/biosim/island.html#Island.surrounding_cells"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.island.Island.surrounding_cells" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates surrounding cells that animals can migrate to.
+If the neighboring cell is either mountain or ocean it does not
+append the selected coordinates</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>coordinate</strong> &#8211; A given coordinate</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">List of surrounding cells which animals can migrate to.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="biosim.island.Island.surrounding_cells_relative_food">
+<code class="descname">surrounding_cells_relative_food</code><span class="sig-paren">(</span><em>y</em>, <em>x</em>, <em>species</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/biosim/island.html#Island.surrounding_cells_relative_food"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.island.Island.surrounding_cells_relative_food" title="Permalink to this definition">¶</a></dt>
+<dd><p>Makes nested lists for the coordinates of the surrounding cells and
+their amount of relative food.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>y</strong> &#8211; y coordinate for the center cell</li>
+<li><strong>x</strong> &#8211; x coordinate for the center cell</li>
+<li><strong>species</strong> &#8211; String with the name of the specie to calculate relative</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>food for.
+:return: nested list with surrounding cell and their calculated relative
+food</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Island</a><ul>
+<li><a class="reference internal" href="#module-biosim.island">The island module</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">Welcome to Biosim_Project&#8217;s documentation!</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="landscape.html"
+                        title="next chapter">Landscape</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/island.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Marius Skaug Kristiansen, Kristian Frafjord.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.3</a>
+      
+      |
+      <a href="_sources/island.txt"
+          rel="nofollow">Page source</a></li>
+    </div>
+
+    
+
+    
+  </body>
+</html>
